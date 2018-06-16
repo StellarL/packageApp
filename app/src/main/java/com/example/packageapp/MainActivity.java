@@ -21,8 +21,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.transition.Explode;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,9 +44,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
     private HomeFragment mHomeFragment;
     ArrayList<Order> arrayList;
     ListView listView;
-    DBUtil dbUtil;
+    DBUtil dbUtilOrder;
     String phone;
-
+    DBUtil dbUtilUser;
+    private UserDBHelper userDBHelper;
+    private OrderDBHelper orderDBHelper;
     private TextView username,phonenumber;
 
 
@@ -53,13 +57,27 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        LayoutInflater layoutInflater = getLayoutInflater();
+        View nav_header = layoutInflater.inflate(R.layout.nav_header,null);
+
+        userDBHelper=new UserDBHelper(MainActivity.this,"User3",null,1);
+        SQLiteDatabase sqLiteDatabaseUser=userDBHelper.getReadableDatabase();
+        orderDBHelper = new OrderDBHelper(MainActivity.this,"Order",null,1);
+        SQLiteDatabase sqLiteDatabaseOrder = orderDBHelper.getReadableDatabase();
+
         phone = PreferenceManager.getDefaultSharedPreferences(this).getString("userphone","");
+        Log.e("userPhone", "onCreate: phone:"+phone);
 
-        username=findViewById(R.id.username);
-        phonenumber=findViewById(R.id.phone);
+        phonenumber=nav_header.findViewById(R.id.phone);
+        username=nav_header.findViewById(R.id.username1);
 
-        OrderDBHelper orderDBHelper = new OrderDBHelper(MainActivity.this,"Order",null,1);
-        SQLiteDatabase sqLiteDatabase = orderDBHelper.getReadableDatabase();
+        DBUtil dbUtilUser = new DBUtil(MainActivity.this,"User3");
+        User user = dbUtilUser.queryByPhoneUser(phone);
+        Log.e("user", "onCreate: " +user.toString() );
+        Log.e("user", "onCreate: "+user.getPhone()+" "+ user.getRelName()+" "+phonenumber+" "+username);
+        phonenumber.setText(user.getPhone());
+        username.setText(user.getRelName());
+
 
         drawerLayout = findViewById(R.id.drawer_layout);
         listView = findViewById(R.id.listOrder);
@@ -119,14 +137,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
             actionBar.setHomeAsUpIndicator(R.drawable.reorder);
         }
 
-
-        dbUtil = new DBUtil(MainActivity.this,"Order");
-//        DBUtil dbUtilUser = new DBUtil(MainActivity.this,"user3");
-//        User user = dbUtilUser.queryByPhoneUser(phone);
-//        username.setText(user.getRelName());
-//        phonenumber.setText(phone);
-        dbUtil.insertInitOrder();
-        arrayList = dbUtil.queryAllState0Order();
+        dbUtilOrder = new DBUtil(MainActivity.this,"Order");
+//        dbUtilOrder.insertInitOrder();
+        arrayList = dbUtilOrder.queryAllState0Order();
         AllOrdersAdapter AllOrdersAdapter = new AllOrdersAdapter(MainActivity.this,arrayList);
         listView.setAdapter(AllOrdersAdapter);
 
@@ -135,7 +148,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         fabtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(MainActivity.this,);
+                Intent intent = new Intent(MainActivity.this,OrderActivity.class);
+                intent.putExtra("userphone",phone);
+                startActivity(intent);
 //                Snackbar.make(v, "Data add", Snackbar.LENGTH_SHORT).setAction("doSome", new View.OnClickListener() {
 //                    @Override
 //                    public void onClick(View v) {
@@ -180,7 +195,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
                     mHomeFragment = HomeFragment.newInstance("首页");
                 }
                 transaction.replace(R.id.tb, mHomeFragment);
-                arrayList = dbUtil.queryAllState0Order();
+                arrayList = dbUtilOrder.queryAllState0Order();
                 AllOrdersAdapter allOrdersAdapter = new AllOrdersAdapter(MainActivity.this,arrayList);
                 listView.setAdapter(allOrdersAdapter);
                 break;
@@ -193,7 +208,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
 //                    finish();
                 }
                 transaction.replace(R.id.tb, mScanFragment);
-                arrayList = dbUtil.selectMyReceiveOrder(phone);
+                arrayList = dbUtilOrder.selectMyReceiveOrder(phone);
                 MyOrderAdapter myReceAdapter = new MyOrderAdapter(MainActivity.this,arrayList);
                 listView.setAdapter(myReceAdapter);
                 break;
@@ -206,9 +221,15 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
 //                    finish();
                 }
                 transaction.replace(R.id.tb, mMyFragment);
-                arrayList = dbUtil.selectMyOrder(phone);
+                arrayList = dbUtilOrder.selectMyOrder(phone);
                 MyOrderAdapter myOrderAdapter = new MyOrderAdapter(MainActivity.this,arrayList);
                 listView.setAdapter(myOrderAdapter);
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                    }
+                });
                 break;
             default:
                 break;

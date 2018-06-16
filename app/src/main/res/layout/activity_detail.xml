@@ -42,6 +42,7 @@
                     android:textSize="20dp" />
 
                 <TextView
+                    android:id="@+id/tv_ordername"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="120dp"
@@ -67,6 +68,7 @@
                     android:textSize="20dp" />
 
                 <TextView
+                    android:id="@+id/tv_orderphone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="120dp"
@@ -92,6 +94,7 @@
                     android:textSize="20dp" />
 
                 <TextView
+                    android:id="@+id/tv_startPlace"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="120dp"
@@ -116,6 +119,7 @@
                     android:textSize="20dp" />
 
                 <TextView
+                    android:id="@+id/tv_endPlace"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="120dp"
@@ -140,6 +144,7 @@
                     android:textSize="20dp" />
 
                 <TextView
+                    android:id="@+id/tv_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="120dp"
@@ -164,6 +169,7 @@
                     android:textSize="20dp" />
 
                 <TextView
+                    android:id="@+id/tv_payment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="130dp"
@@ -188,14 +194,15 @@
                     android:textSize="20dp" />
 
                 <TextView
+                    android:id="@+id/tv_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="140dp"
                     android:layout_marginTop="10dp"
+                    android:background="@drawable/txt_shape"
                     android:text="是的烦恼是快递反馈都是开放的免费按时"
                     android:textAlignment="center"
                     android:textColor="@color/colorHeader"
-                    android:background="@drawable/txt_shape"
                     android:textSize="20dp" />
             </RelativeLayout>
             <RelativeLayout
@@ -203,15 +210,16 @@
                 android:layout_height="wrap_content">
 
                 <Button
+                    android:id="@+id/btnConfirm"
                     android:layout_width="150dp"
                     android:layout_height="50dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="20dp"
-                    android:text="确认接单"
-                    android:textSize="20dp"
-                    android:textColor="@color/colorWhite"
                     android:layout_centerHorizontal="true"
-                    android:background="@drawable/btn_shape"/>
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/btn_shape"
+                    android:text="查看评价"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="20dp" />
 
 
             </RelativeLayout>
