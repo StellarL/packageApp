@@ -87,6 +87,15 @@ public class AllOrdersAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
 
+
+                //todo 确定按钮
+
+                //todo 更新数据库已接单
+                //todo 更新User数据库 score+2
+                Intent intent = new Intent(context,DetailActivity.class);
+                intent.putExtra("id",order.getId());
+                context.startActivity(intent);
+
                 sdlog = new selfDialog(context);
                 sdlog.setYesOnclickListener(new selfDialog.onYesOnclickListener() {
                     @Override
@@ -103,6 +112,7 @@ public class AllOrdersAdapter extends BaseAdapter {
                     }
                 });
                 sdlog.show();
+
             }
         });
 

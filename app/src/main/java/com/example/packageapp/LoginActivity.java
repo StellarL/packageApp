@@ -27,6 +27,7 @@ public class LoginActivity extends AppCompatActivity {
     private UserDBHelper userDBHelper;
     private SQLiteDatabase sqLiteDatabase;
     private DBUtil dbUtil;
+    private SharedPreferences pref;
     private SharedPreferences.Editor editor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
         cv = findViewById(R.id.cv);
         fab = findViewById(R.id.fab);
         dbUtil = new DBUtil(LoginActivity.this,"User3");
-        editor = getSharedPreferences("data",MODE_PRIVATE).edit();
+        editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
     }
 
     private void setListener() {
@@ -76,7 +77,9 @@ public class LoginActivity extends AppCompatActivity {
                     } else {
                         //正确
                         editor.putString("userphone",userPhone);
+                        Log.e("loginAc", "onClick: userPhone:"+userPhone );
                         editor.apply();
+                        Log.e("onClick", "onClick: 密码正确" );
                         Intent i2 = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(i2, oc2.toBundle());
                     }
