@@ -2,6 +2,7 @@ package com.example.packageapp;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ public class HomeFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.e("onCreate", "onCreate: " );
         super.onCreate(savedInstanceState);
     }
 

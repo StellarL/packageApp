@@ -12,55 +12,20 @@ import java.util.ArrayList;
  * Created by 李馨 on 2018/6/13.
  */
 
-public class DBUtil extends SQLiteOpenHelper{
+public class DBUtil {
 
     private SQLiteDatabase sqLiteDatabase;
-    private String table;
 
-    public DBUtil(Context context, String name, SQLiteDatabase.CursorFactory factory, int version, String table) {
-        super(context, name, factory, version);
-        sqLiteDatabase = context.openOrCreateDatabase(name,Context.MODE_PRIVATE,null);
-        this.table = table;
+    public DBUtil(Context context, String dbname) {
+        sqLiteDatabase = context.openOrCreateDatabase(dbname,Context.MODE_PRIVATE,null);
     }
 
 
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        String create_sql = "";
-        switch (table){
-            case "user":
-                create_sql = "create table "+ table +
-                        "(_id integer primary key autoincrement, " +
-                        "phone text" +
-                        "password text," +
-                        "relname text," +
-                        "id_card text," +
-                        "id_img text" +
-                        "score integer)";
-            case "order1":
-                create_sql = "create table order1(" +
-                        "_id integer primary key autoincrement, " +
-                        "order_id integer," + //存User _id
-                        "order_name text," + // User relname
-                        "order_phone text," + //User phone
-                        "receive_id integer," +
-                        "receive_name text," +
-                        "receive_phone text," +
-                        "start_place text," +
-                        "end_place text ," +
-                        "payment integer," +
-                        "type integer," +
-                        "status integer," +
-                        "finish text," +
-                        "info text," +
-                        "score integer)";
-        }
-        db.execSQL(create_sql);
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+    public void insertInitOrder(){
+        insertOrder(2,"李馨","18332438554","D5","A6",5,1,"谢谢");
+        insertOrder(3,"lxini","18332432454","D5","D6",5,1,"谢谢");
+        insertOrder(4,"dengyan","18332444354","D5","A7",5,1,"谢谢");
+        Log.e("insertInitOrder", "insertInitOrder: insertSuccess" );
     }
 
     /**
@@ -74,10 +39,11 @@ public class DBUtil extends SQLiteOpenHelper{
      * @param type 类型
      * @param info 信息
      */
-    public void insertOrder(int orderId,String orderName,String orderPhone,String startPlace,String endPlace,String payment,String type,String info) {
+    public void insertOrder(int orderId,String orderName,String orderPhone,String startPlace,String endPlace,int payment,int type,String info) {
         String sql = "insert into order1(_id,order_id,order_name,order_phone,receive_id,receive_name,receive_phone,start_place,end_place,payment,type,status,finish,info,score)" +
                 "values ( null, ? , ? ,?,null,null,null,?,?,?,?,0,?,?,0)";
         sqLiteDatabase.execSQL(sql,new Object[]{orderId,orderName,orderPhone,startPlace,endPlace,payment,type,"未完成",info});
+        Log.e("insertOrder", "insertOrder: success" );
     }
 
     //查询未接单的所有订单

@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -20,8 +21,13 @@ import android.transition.Explode;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListView;
+import android.widget.Toast;
+
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationBar.OnTabSelectedListener {
     private BottomNavigationBar bottomNavigationBar;
@@ -30,6 +36,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
     private MyFragment mMyFragment;
     private ScanFragment mScanFragment;
     private HomeFragment mHomeFragment;
+    ArrayList<Order> arrayList;
+    ListView listView;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
 //        getWindow().setEnterTransition(explode);
 
         drawerLayout = findViewById(R.id.drawer_layout);
+        listView = findViewById(R.id.listOrder);
 
         final NavigationView navView = findViewById(R.id.nav_view);
 //        navView.setCheckedItem(R.id.nav_score);
@@ -53,19 +64,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
                 return true;
             }
         });
-        //悬浮按钮
-        FloatingActionButton fabtn = findViewById(R.id.fab);
-        fabtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Snackbar.make(v, "Data add", Snackbar.LENGTH_SHORT).setAction("doSome", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //事件
-                    }
-                }).show();
-            }
-        });
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -110,6 +109,28 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
             actionBar.setHomeAsUpIndicator(R.drawable.reorder);
         }
 
+        //悬浮按钮
+        FloatingActionButton fabtn = findViewById(R.id.fab);
+        fabtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(v, "Data add", Snackbar.LENGTH_SHORT).setAction("doSome", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //事件
+                        Toast.makeText(MainActivity.this,"data res",Toast.LENGTH_SHORT).show();
+                    }
+                }).show();
+            }
+        });
+
+        OrderDBHelper orderDBHelper = new OrderDBHelper(MainActivity.this,"Order",null,1);
+        SQLiteDatabase sqLiteDatabase = orderDBHelper.getReadableDatabase();
+        DBUtil dbUtil = new DBUtil(MainActivity.this,"Order");
+//        dbUtil.insertInitOrder();
+        arrayList = dbUtil.queryAllState0Order();
+        AllOrdersAdapter AllOrdersAdapter = new AllOrdersAdapter(MainActivity.this,arrayList);
+        listView.setAdapter(AllOrdersAdapter);
     }
 
 //    private void setDefaultFragment() {
@@ -136,11 +157,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         FragmentTransaction transaction = fm.beginTransaction();
         switch (position) {
             case 0:
-
                 if (mHomeFragment == null) {
                     mHomeFragment = HomeFragment.newInstance("首页");
                 }
                 transaction.replace(R.id.tb, mHomeFragment);
+
                 break;
             case 1:
                 if (mScanFragment == null) {

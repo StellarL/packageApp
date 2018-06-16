@@ -8,6 +8,23 @@
     android:background="@color/colorHeader"
     tools:context=".MainActivity">
 
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="63dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+
+        android:layout_marginBottom="66dp">
+    <ListView
+        android:id="@+id/listOrder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+    </ListView>
+    </android.support.v7.widget.CardView>
+
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
