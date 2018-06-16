@@ -7,4 +7,5 @@
     <color name="colorHeader">#fc0</color>
     <color name="colorPurple">#9e2057</color>
     <color name="colorWhite">#fff</color>
+    <color name="colorGray">#9a9a9a</color>
 </resources>
