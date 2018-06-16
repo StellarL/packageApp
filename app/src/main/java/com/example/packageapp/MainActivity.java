@@ -124,9 +124,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.drawable.reorder) {
-            drawerLayout.openDrawer(GravityCompat.START);
-        }
+       switch(item.getItemId()){
+           case android.R.id.home:
+               drawerLayout.openDrawer(GravityCompat.START);
+               break;
+       }
         return true;
     }
     @Override
