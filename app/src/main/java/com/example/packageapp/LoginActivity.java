@@ -2,15 +2,18 @@ package com.example.packageapp;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.transition.Explode;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -19,11 +22,19 @@ public class LoginActivity extends AppCompatActivity {
     private Button btGo;
     private CardView cv;
     private FloatingActionButton fab;
+    private UserDBHelper userDBHelper;
+    private SQLiteDatabase sqLiteDatabase;
+    private DBUtil dbUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        userDBHelper=new UserDBHelper(LoginActivity.this,"User2",null,1);
+        sqLiteDatabase=userDBHelper.getReadableDatabase();
+
+
+
         initView();
         setListener();
     }
@@ -34,6 +45,7 @@ public class LoginActivity extends AppCompatActivity {
         btGo = findViewById(R.id.bt_go);
         cv = findViewById(R.id.cv);
         fab = findViewById(R.id.fab);
+        dbUtil = new DBUtil(LoginActivity.this,"User2");
     }
 
     private void setListener() {
@@ -46,8 +58,26 @@ public class LoginActivity extends AppCompatActivity {
                 getWindow().setExitTransition(explode);
                 getWindow().setEnterTransition(explode);
                 ActivityOptionsCompat oc2 = ActivityOptionsCompat.makeSceneTransitionAnimation(LoginActivity.this);
-                Intent i2 = new Intent(LoginActivity.this,MainActivity.class);
-                startActivity(i2, oc2.toBundle());
+
+                //判断密码是否正确
+                String userPhone = etUsername.getText().toString();
+                String password = etPassword.getText().toString();
+
+                //todo 先注释 后面要用
+//                if(userPhone.length()==0 || userPhone.equals("") || userPhone.isEmpty() || userPhone==null){
+//                    Toast.makeText(LoginActivity.this,"请输入用户名",Toast.LENGTH_SHORT).show();
+//                }else if (password.equals("") || password.length()==0 || password.isEmpty() || password==null){
+//                    Toast.makeText(LoginActivity.this,"请输入密码",Toast.LENGTH_SHORT).show();
+//                } else {
+//                    if (!dbUtil.pswRightUser(userPhone, password)) {
+//                        //不正确
+//                        Toast.makeText(LoginActivity.this, "用户名或密码错误", Toast.LENGTH_SHORT).show();
+//                    } else {
+//                        //正确
+                        Intent i2 = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(i2, oc2.toBundle());
+//                    }
+//                }
             }
         });
         fab.setOnClickListener(new View.OnClickListener() {
