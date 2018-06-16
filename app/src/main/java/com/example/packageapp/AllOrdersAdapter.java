@@ -2,6 +2,7 @@ package com.example.packageapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,10 +23,13 @@ public class AllOrdersAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<Order> arrayList;
     private selfDialog sdlog;
+    private String phone;
 
-    public AllOrdersAdapter(Context context, ArrayList<Order> arrayList) {
+
+    public AllOrdersAdapter(Context context, ArrayList<Order> arrayList,String phone) {
         this.context = context;
         this.arrayList = arrayList;
+        this.phone = phone;
     }
 
     @Override
@@ -86,32 +90,39 @@ public class AllOrdersAdapter extends BaseAdapter {
         myHolder.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-                //todo 确定按钮
-
-                //todo 更新数据库已接单
-                //todo 更新User数据库 score+2
-                Intent intent = new Intent(context,DetailActivity.class);
-                intent.putExtra("id",order.getId());
-                context.startActivity(intent);
-
                 sdlog = new selfDialog(context);
                 sdlog.setYesOnclickListener(new selfDialog.onYesOnclickListener() {
                     @Override
                     public void onYesClick() {
+                        //todo 更新数据库已接单
+                        DBUtil dbUtilUser = new DBUtil(context,"User3");
+                        User user = dbUtilUser.queryByPhoneUser(phone);
+
+                        DBUtil dbUtilOrder = new DBUtil(context,"Order");
+                        dbUtilOrder.updateStatusOrder(order.getId(),user.getId(),user.getRelName(),user.getPhone());
+                        //todo 更新User数据库 score+2
+                        dbUtilUser.updateReceScoreUser(user.getId());
+                        dbUtilUser.queryAllUser();
+                        Order order1 = dbUtilOrder.queryByIdOrder(order.getId());
+                        Log.e("order1", "onYesClick: "+order1.toString());
                         Intent intent = new Intent(context,DetailActivity.class);
+                        intent.putExtra("id",order.getId());
                         context.startActivity(intent);
+                        sdlog.dismiss();
                     }
                 });
                 sdlog.setNoOnclickListener(new selfDialog.onNoOnclickListener(){
 
                     @Override
                     public void onNoClick() {
-
+                        sdlog.dismiss();
                     }
                 });
                 sdlog.show();
+
+
+
+
 
             }
         });
