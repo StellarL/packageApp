@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -22,6 +23,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
@@ -42,6 +44,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
     DBUtil dbUtil;
     String phone;
 
+    private TextView username,phonenumber;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +54,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
 
         //todo 登录人phone
         phone = "13666666666";
+
+
+
+        username=findViewById(R.id.username);
+        phonenumber=findViewById(R.id.phone);
 
         OrderDBHelper orderDBHelper = new OrderDBHelper(MainActivity.this,"Order",null,1);
         SQLiteDatabase sqLiteDatabase = orderDBHelper.getReadableDatabase();

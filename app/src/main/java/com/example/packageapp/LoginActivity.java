@@ -2,8 +2,10 @@ package com.example.packageapp;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -25,15 +27,13 @@ public class LoginActivity extends AppCompatActivity {
     private UserDBHelper userDBHelper;
     private SQLiteDatabase sqLiteDatabase;
     private DBUtil dbUtil;
-
+    private SharedPreferences.Editor editor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         userDBHelper=new UserDBHelper(LoginActivity.this,"User2",null,1);
         sqLiteDatabase=userDBHelper.getReadableDatabase();
-
-
 
         initView();
         setListener();
@@ -74,6 +74,9 @@ public class LoginActivity extends AppCompatActivity {
 //                        Toast.makeText(LoginActivity.this, "用户名或密码错误", Toast.LENGTH_SHORT).show();
 //                    } else {
 //                        //正确
+
+                        editor.putString("userphone",userPhone);
+                        editor.apply();
                         Intent i2 = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(i2, oc2.toBundle());
 //                    }
