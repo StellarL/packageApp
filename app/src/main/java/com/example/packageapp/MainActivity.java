@@ -38,7 +38,7 @@ import java.util.regex.Matcher;
 public class MainActivity extends AppCompatActivity implements BottomNavigationBar.OnTabSelectedListener {
     private BottomNavigationBar bottomNavigationBar;
     private DrawerLayout drawerLayout;
-    int lastSelectedPosition = 0;
+    static int lastSelectedPosition = 0;
     private MyFragment mMyFragment;
     private ScanFragment mScanFragment;
     private HomeFragment mHomeFragment;
@@ -52,13 +52,24 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
     private TextView username,phonenumber;
 
 
+//    public int getLastSelectedPosition() {
+//        return lastSelectedPosition;
+//    }
+//
+//    public void setLastSelectedPosition(int lastSelectedPosition) {
+//        this.lastSelectedPosition = lastSelectedPosition;
+//    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        LayoutInflater layoutInflater = getLayoutInflater();
-        View nav_header = layoutInflater.inflate(R.layout.nav_header,null);
+        final NavigationView navView = findViewById(R.id.nav_view);
+        View headerView = navView.getHeaderView(0);
+
+//        LayoutInflater layoutInflater = getLayoutInflater();
+//        View nav_header = layoutInflater.inflate(R.layout.nav_header,null);
 
         userDBHelper=new UserDBHelper(MainActivity.this,"User3",null,1);
         SQLiteDatabase sqLiteDatabaseUser=userDBHelper.getReadableDatabase();
@@ -68,8 +79,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         phone = PreferenceManager.getDefaultSharedPreferences(this).getString("userphone","");
         Log.e("userPhone", "onCreate: phone:"+phone);
 
-        phonenumber=nav_header.findViewById(R.id.phone);
-        username=nav_header.findViewById(R.id.username1);
+        phonenumber=(TextView)headerView.findViewById(R.id.phone);
+        username=(TextView)headerView.findViewById(R.id.username1);
 
         DBUtil dbUtilUser = new DBUtil(MainActivity.this,"User3");
         User user = dbUtilUser.queryByPhoneUser(phone);
@@ -82,13 +93,25 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         drawerLayout = findViewById(R.id.drawer_layout);
         listView = findViewById(R.id.listOrder);
 
-        final NavigationView navView = findViewById(R.id.nav_view);
+
 //        navView.setCheckedItem(R.id.nav_score);
 //        navView.setItemTextColor(ColorStateList.valueOf(Color.parseColor("#9a9a9a")));
         navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 //                drawerLayout.closeDrawers();
+                switch (item.getItemId()){
+                    case R.id.nav_score:
+                        startActivity(new Intent(MainActivity.this,evalActivity.class));
+                        break;
+                    case R.id.info:
+                        startActivity(new Intent(MainActivity.this,mineActivity.class));
+                        break;
+                    case R.id.fix:
+                        startActivity(new Intent(MainActivity.this,SetIdentActivity.class));
+                        break;
+
+                }
                 return true;
             }
         });
@@ -128,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
                 .addItem(new BottomNavigationItem(R.drawable.first, "首页"))
                 .addItem(new BottomNavigationItem(R.drawable.second, "我的接单"))
                 .addItem(new BottomNavigationItem(R.drawable.third, "我的下单"))
-                .setFirstSelectedPosition(lastSelectedPosition)
+                .setFirstSelectedPosition(MainActivity.lastSelectedPosition)
                 .initialise(); //initialise 一定要放在 所有设置的最后一项
 
         ActionBar actionBar = getSupportActionBar();
@@ -140,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         dbUtilOrder = new DBUtil(MainActivity.this,"Order");
 //        dbUtilOrder.insertInitOrder();
         arrayList = dbUtilOrder.queryAllState0Order();
-        AllOrdersAdapter AllOrdersAdapter = new AllOrdersAdapter(MainActivity.this,arrayList);
+        AllOrdersAdapter AllOrdersAdapter = new AllOrdersAdapter(MainActivity.this,arrayList,phone);
         listView.setAdapter(AllOrdersAdapter);
 
         //悬浮按钮
@@ -196,7 +219,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
                 }
                 transaction.replace(R.id.tb, mHomeFragment);
                 arrayList = dbUtilOrder.queryAllState0Order();
-                AllOrdersAdapter allOrdersAdapter = new AllOrdersAdapter(MainActivity.this,arrayList);
+                AllOrdersAdapter allOrdersAdapter = new AllOrdersAdapter(MainActivity.this,arrayList,phone);
                 listView.setAdapter(allOrdersAdapter);
                 break;
             case 1:
@@ -211,6 +234,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
                 arrayList = dbUtilOrder.selectMyReceiveOrder(phone);
                 MyOrderAdapter myReceAdapter = new MyOrderAdapter(MainActivity.this,arrayList);
                 listView.setAdapter(myReceAdapter);
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Order order = arrayList.get(position);
+                        startActivity(new Intent(MainActivity.this,DetailActivity.class).putExtra("id",order.getId()));
+                    }
+                });
                 break;
             case 2:
                 //我的下单
@@ -227,6 +257,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Order order = arrayList.get(position);
+                        startActivity(new Intent(MainActivity.this,DetailActivity.class).putExtra("id",order.getId()));
 
                     }
                 });

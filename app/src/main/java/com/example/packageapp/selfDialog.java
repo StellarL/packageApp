@@ -3,13 +3,14 @@ package com.example.packageapp;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 public class selfDialog extends Dialog {
     private Button yes;//确定按钮
-    private Button no;//取消按钮
+    private FloatingActionButton no;//取消按钮
     private TextView titleTv;//消息标题文本
     private TextView messageTv;//消息提示文本
     private String titleStr;//从外界设置的title文本
@@ -102,9 +103,9 @@ public class selfDialog extends Dialog {
         if (yesStr != null) {
             yes.setText(yesStr);
         }
-        if (noStr != null) {
-            no.setText(noStr);
-        }
+//        if (noStr != null) {
+//            no.setText(noStr);
+//        }
     }
 
     /**
@@ -112,7 +113,7 @@ public class selfDialog extends Dialog {
      */
     private void initView() {
         yes = (Button) findViewById(R.id.yes);
-        no = (Button) findViewById(R.id.no);
+        no = (FloatingActionButton) findViewById(R.id.no);
         titleTv = (TextView) findViewById(R.id.title);
         messageTv = (TextView) findViewById(R.id.message);
     }
