@@ -22,7 +22,8 @@
         <activity android:name=".LoginSuccessActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".evalActivity" />
-        <activity android:name=".DetailActivity"></activity>
+        <activity android:name=".DetailActivity" />
+        <activity android:name=".OrderActivity"></activity>
     </application>
 
 </manifest>

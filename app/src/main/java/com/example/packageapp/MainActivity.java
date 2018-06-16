@@ -133,13 +133,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         fabtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Snackbar.make(v, "Data add", Snackbar.LENGTH_SHORT).setAction("doSome", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //事件
-                        Toast.makeText(MainActivity.this,"data res",Toast.LENGTH_SHORT).show();
-                    }
-                }).show();
+//                Intent intent = new Intent(MainActivity.this,);
+//                Snackbar.make(v, "Data add", Snackbar.LENGTH_SHORT).setAction("doSome", new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        //事件
+//                        Toast.makeText(MainActivity.this,"data res",Toast.LENGTH_SHORT).show();
+//                    }
+//                }).show();
             }
         });
 
