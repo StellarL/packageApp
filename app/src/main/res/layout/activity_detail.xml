@@ -9,7 +9,7 @@
 
     <android.support.v7.widget.CardView
         android:layout_width="350dp"
-        android:layout_height="450dp"
+        android:layout_height="wrap_content"
         app:cardCornerRadius="6dp"
         app:cardElevation="3dp"
         app:cardUseCompatPadding="true"
@@ -206,6 +206,7 @@
                     android:layout_width="150dp"
                     android:layout_height="50dp"
                     android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
                     android:text="确认接单"
                     android:textSize="20dp"
                     android:textColor="@color/colorWhite"
