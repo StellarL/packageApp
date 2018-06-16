@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<group android:checkableBehavior="single">
+    <item android:id="@+id/nav_score"
+        android:icon="@drawable/star"
+        android:title="我的积分"/>
+    <item android:title="我的认证"
+        android:icon="@drawable/face"
+        android:id="@+id/info"/>
+    <item android:id="@+id/fix"
+        android:icon="@drawable/pen"
+        android:title="修改信息"/>
+</group>
+    <item android:title=" ">
+        <menu>
+            <item  android:title="设置"
+                android:id="@+id/setting"
+                android:icon="@drawable/setting"/>
+            <item android:title="退出登录"
+                android:id="@+id/logout"/>
+        </menu>
+    </item>
+</menu>
