@@ -38,7 +38,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
     private HomeFragment mHomeFragment;
     ArrayList<Order> arrayList;
     ListView listView;
-
+    DBUtil dbUtil;
+    String phone;
 
 
     @Override
@@ -46,10 +47,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        Explode explode = new Explode();
-//        explode.setDuration(500);
-//        getWindow().setExitTransition(explode);
-//        getWindow().setEnterTransition(explode);
+        //todo 登录人phone
+        phone = "13666666666";
+
+        OrderDBHelper orderDBHelper = new OrderDBHelper(MainActivity.this,"Order",null,1);
+        SQLiteDatabase sqLiteDatabase = orderDBHelper.getReadableDatabase();
 
         drawerLayout = findViewById(R.id.drawer_layout);
         listView = findViewById(R.id.listOrder);
@@ -109,6 +111,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
             actionBar.setHomeAsUpIndicator(R.drawable.reorder);
         }
 
+
+        dbUtil = new DBUtil(MainActivity.this,"Order");
+        dbUtil.insertInitOrder();
+        arrayList = dbUtil.queryAllState0Order();
+        AllOrdersAdapter AllOrdersAdapter = new AllOrdersAdapter(MainActivity.this,arrayList);
+        listView.setAdapter(AllOrdersAdapter);
+
         //悬浮按钮
         FloatingActionButton fabtn = findViewById(R.id.fab);
         fabtn.setOnClickListener(new View.OnClickListener() {
@@ -124,13 +133,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
             }
         });
 
-        OrderDBHelper orderDBHelper = new OrderDBHelper(MainActivity.this,"Order",null,1);
-        SQLiteDatabase sqLiteDatabase = orderDBHelper.getReadableDatabase();
-        DBUtil dbUtil = new DBUtil(MainActivity.this,"Order");
-//        dbUtil.insertInitOrder();
-        arrayList = dbUtil.queryAllState0Order();
-        AllOrdersAdapter AllOrdersAdapter = new AllOrdersAdapter(MainActivity.this,arrayList);
-        listView.setAdapter(AllOrdersAdapter);
+
     }
 
 //    private void setDefaultFragment() {
@@ -159,31 +162,41 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         FragmentTransaction transaction = fm.beginTransaction();
         switch (position) {
             case 0:
+                //首页 接单
                 if (mHomeFragment == null) {
                     mHomeFragment = HomeFragment.newInstance("首页");
                 }
                 transaction.replace(R.id.tb, mHomeFragment);
-
+                arrayList = dbUtil.queryAllState0Order();
+                AllOrdersAdapter allOrdersAdapter = new AllOrdersAdapter(MainActivity.this,arrayList);
+                listView.setAdapter(allOrdersAdapter);
                 break;
             case 1:
+                //我的接单
                 if (mScanFragment == null) {
-//                    mScanFragment = ScanFragment.newInstance("我的接单");
-                    Intent intent = new Intent();
-                    startActivity(intent);
-                    finish();
+                    mScanFragment = ScanFragment.newInstance("我的接单");
+//                    Intent intent = new Intent();
+//                    startActivity(intent);
+//                    finish();
                 }
                 transaction.replace(R.id.tb, mScanFragment);
+                arrayList = dbUtil.selectMyReceiveOrder(phone);
+                MyOrderAdapter myReceAdapter = new MyOrderAdapter(MainActivity.this,arrayList);
+                listView.setAdapter(myReceAdapter);
                 break;
             case 2:
+                //我的下单
                 if (mMyFragment == null) {
-//                    mMyFragment = MyFragment.newInstance("我的下单");
+                    mMyFragment = MyFragment.newInstance("我的下单");
 //                    Intent intent = new Intent();
 //                    startActivity(intent);
 //                    finish();
                 }
                 transaction.replace(R.id.tb, mMyFragment);
+                arrayList = dbUtil.selectMyOrder(phone);
+                MyOrderAdapter myOrderAdapter = new MyOrderAdapter(MainActivity.this,arrayList);
+                listView.setAdapter(myOrderAdapter);
                 break;
-
             default:
                 break;
         }
