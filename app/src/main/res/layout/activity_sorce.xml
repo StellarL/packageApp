@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg"
+    android:background="@color/colorHeader"
     tools:context=".evalActivity">
 
     <android.support.v7.widget.CardView
@@ -34,13 +34,15 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="50dp"
-                app:srcCompat="@drawable/score" />
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/score" />
 
                 <TextView
                     android:layout_width="31dp"
@@ -62,15 +64,15 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:gravity="center"
                     android:layout_width="120dp"
                     android:layout_height="40dp"
-                    android:text="我的积分"
                     android:layout_marginStart="90dp"
-                    android:textColor="@color/colorWhite"
                     android:background="@color/colorTheme"
-                    android:textSize="20dp"
+                    android:gravity="center"
+                    android:text="我的积分"
                     android:textAlignment="center"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="20dp"
                     android:textStyle="bold" />
             </LinearLayout>
 
