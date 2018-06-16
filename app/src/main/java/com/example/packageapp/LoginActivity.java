@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        userDBHelper=new UserDBHelper(LoginActivity.this,"User2",null,1);
+        userDBHelper=new UserDBHelper(LoginActivity.this,"User3",null,1);
         sqLiteDatabase=userDBHelper.getReadableDatabase();
 
         initView();
@@ -45,7 +45,8 @@ public class LoginActivity extends AppCompatActivity {
         btGo = findViewById(R.id.bt_go);
         cv = findViewById(R.id.cv);
         fab = findViewById(R.id.fab);
-        dbUtil = new DBUtil(LoginActivity.this,"User2");
+        dbUtil = new DBUtil(LoginActivity.this,"User3");
+        editor = getSharedPreferences("data",MODE_PRIVATE).edit();
     }
 
     private void setListener() {
@@ -64,23 +65,22 @@ public class LoginActivity extends AppCompatActivity {
                 String password = etPassword.getText().toString();
 
                 //todo 先注释 后面要用
-//                if(userPhone.length()==0 || userPhone.equals("") || userPhone.isEmpty() || userPhone==null){
-//                    Toast.makeText(LoginActivity.this,"请输入用户名",Toast.LENGTH_SHORT).show();
-//                }else if (password.equals("") || password.length()==0 || password.isEmpty() || password==null){
-//                    Toast.makeText(LoginActivity.this,"请输入密码",Toast.LENGTH_SHORT).show();
-//                } else {
-//                    if (!dbUtil.pswRightUser(userPhone, password)) {
-//                        //不正确
-//                        Toast.makeText(LoginActivity.this, "用户名或密码错误", Toast.LENGTH_SHORT).show();
-//                    } else {
-//                        //正确
-
+                if(userPhone.length()==0 || userPhone.equals("") || userPhone.isEmpty() || userPhone==null){
+                    Toast.makeText(LoginActivity.this,"请输入用户名",Toast.LENGTH_SHORT).show();
+                }else if (password.equals("") || password.length()==0 || password.isEmpty() || password==null){
+                    Toast.makeText(LoginActivity.this,"请输入密码",Toast.LENGTH_SHORT).show();
+                } else {
+                    if (!dbUtil.pswRightUser(userPhone, password)) {
+                        //不正确
+                        Toast.makeText(LoginActivity.this, "用户名或密码错误", Toast.LENGTH_SHORT).show();
+                    } else {
+                        //正确
                         editor.putString("userphone",userPhone);
                         editor.apply();
                         Intent i2 = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(i2, oc2.toBundle());
-//                    }
-//                }
+                    }
+                }
             }
         });
         fab.setOnClickListener(new View.OnClickListener() {

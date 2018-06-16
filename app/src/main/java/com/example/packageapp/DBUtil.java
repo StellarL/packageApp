@@ -22,22 +22,24 @@ public class DBUtil {
 
 
     public void initUser(){
-        String insert_sql = "insert into user1(_id,phone,password,relname,id_card,id_img,score)" +
+        /*String insert_sql = "insert into user1(_id,phone,password,relname,id_card,id_img,score)" +
                 " values(null,?,?,null,null,null,0)";
-        sqLiteDatabase.execSQL(insert_sql,new String[]{"13666666666","123456"});
+        sqLiteDatabase.execSQL(insert_sql,new String[]{"13666666666","123456"});*/
+        addIdentUser("13666666666","李馨","529481199602233429");
+        Log.e("initUser", "initUser: success"  );
     }
 
     public void insertInitOrder(){
-//        insertOrder(2,"李馨","13555555555","D5","A6",5,1,"谢谢");
-//        insertOrder(2,"lxini","13666666666","D5","D6",5,1,"谢谢");
-//        insertOrder(2,"dengyan","13555555555","D5","A7",5,1,"谢谢");
-//        insertOrder(1,"李欣","13666666666","C3","A7",4,1,"谢谢");
-//        updateStatusOrder(5,2,"dengyan","13555555555");
-//        insertOrder(1,"dengyan","13555555555","A3","D5",4,1,"谢谢");
-//        updateStatusOrder(6,2,"lixin","13666666666");
-//        insertOrder(2,"哈哈哈哈","13555555555","A7","A8",3,2,"谢谢");
-//        updateStatusOrder(1,1,"aa","13666666666");
-//        updateStatusOrder(3,1,"aa","13666666666");
+        insertOrder(2,"李馨","13555555555","D5","A6",5,1,"谢谢");
+        insertOrder(2,"lxini","13666666666","D5","D6",5,1,"谢谢");
+        insertOrder(2,"dengyan","13555555555","D5","A7",5,1,"谢谢");
+        insertOrder(1,"李欣","13666666666","C3","A7",4,1,"谢谢");
+        updateStatusOrder(5,2,"dengyan","13555555555");
+        insertOrder(1,"dengyan","13555555555","A3","D5",4,1,"谢谢");
+        updateStatusOrder(6,2,"lixin","13666666666");
+        insertOrder(2,"哈哈哈哈","13555555555","A7","A8",3,2,"谢谢");
+        updateStatusOrder(1,1,"aa","13666666666");
+        updateStatusOrder(3,1,"aa","13666666666");
         queryAllOrder();
         Log.e("insertInitOrder", "insertInitOrder: insertSuccess" );
     }
@@ -92,6 +94,30 @@ public class DBUtil {
     }
 
     /**
+     * 根据user phone 查询User信息
+     * @param userphone
+     * @return User
+     */
+    public User queryByPhoneUser(String userphone){
+        String sql = "select * from user1 where phone=?";
+        Cursor c = sqLiteDatabase.rawQuery(sql,new String[]{userphone});
+        User user=new User();
+        while (c.moveToNext()){
+            //_id
+            int id = c.getInt(c.getColumnIndex("_id"));
+            String phone = c.getString(c.getColumnIndex("phone"));
+            String password = c.getString(c.getColumnIndex("password"));
+            String relname = c.getString(c.getColumnIndex("relname"));
+            String id_card = c.getString(c.getColumnIndex("id_card"));
+            String id_img = c.getString(c.getColumnIndex("id_img"));
+            int score = c.getInt(c.getColumnIndex("score"));
+            user = new User(id,phone,password,relname,id_card,id_img,score);
+        }
+        Log.e("queryAllUser", "queryAllUser: " + user.toString() );
+        return user;
+    }
+
+    /**
      * 查询所有用户
      */
     public void queryAllUser(){
@@ -109,6 +135,16 @@ public class DBUtil {
             User user = new User(id,phone,password,relname,id_card,id_img,score);
             Log.e("queryAllUser", "queryAllUser: " + user.toString() );
         }
+    }
+
+    /**
+     * 添加认证信息
+     * @param userphone
+     */
+    public void addIdentUser(String userphone,String relname,String id_card){
+        String sql = "update user1 set relname =?,id_card=? where phone=?";
+        sqLiteDatabase.execSQL(sql,new Object[]{relname,id_card,userphone});
+        Log.e("addIdentUser", "addIdentUser: success" );
     }
 
     /**

@@ -24,7 +24,11 @@
         <activity android:name=".evalActivity" />
         <activity android:name=".DetailActivity" />
         <activity android:name=".OrderActivity" />
+
+        <activity android:name=".SetIdentActivity"></activity>
+
         <activity android:name=".mineActivity"></activity>
+
     </application>
 
 </manifest>
