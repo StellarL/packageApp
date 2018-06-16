@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -20,6 +21,7 @@ public class AllOrdersAdapter extends BaseAdapter {
 
     private Context context;
     private ArrayList<Order> arrayList;
+    private selfDialog sdlog;
 
     public AllOrdersAdapter(Context context, ArrayList<Order> arrayList) {
         this.context = context;
@@ -84,8 +86,23 @@ public class AllOrdersAdapter extends BaseAdapter {
         myHolder.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context,DetailActivity.class);
-                context.startActivity(intent);
+
+                sdlog = new selfDialog(context);
+                sdlog.setYesOnclickListener(new selfDialog.onYesOnclickListener() {
+                    @Override
+                    public void onYesClick() {
+                        Intent intent = new Intent(context,DetailActivity.class);
+                        context.startActivity(intent);
+                    }
+                });
+                sdlog.setNoOnclickListener(new selfDialog.onNoOnclickListener(){
+
+                    @Override
+                    public void onNoClick() {
+
+                    }
+                });
+                sdlog.show();
             }
         });
 
