@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -52,10 +53,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //todo 登录人phone
-        phone = "13666666666";
-
-
+        phone = PreferenceManager.getDefaultSharedPreferences(this).getString("userphone","");
 
         username=findViewById(R.id.username);
         phonenumber=findViewById(R.id.phone);
@@ -123,6 +121,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
 
 
         dbUtil = new DBUtil(MainActivity.this,"Order");
+//        DBUtil dbUtilUser = new DBUtil(MainActivity.this,"user3");
+//        User user = dbUtilUser.queryByPhoneUser(phone);
+//        username.setText(user.getRelName());
+//        phonenumber.setText(phone);
         dbUtil.insertInitOrder();
         arrayList = dbUtil.queryAllState0Order();
         AllOrdersAdapter AllOrdersAdapter = new AllOrdersAdapter(MainActivity.this,arrayList);

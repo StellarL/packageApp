@@ -69,6 +69,9 @@ public class RegisterActivity extends AppCompatActivity {
                     } else {
                         //不重复
                         dbUtil.insertUser(userPhone, password);
+                        Intent intent = new Intent(RegisterActivity.this,SetIdentActivity.class);
+                        intent.putExtra("userphone",userPhone);
+                        startActivity(intent);
                     }
                 }
             }
@@ -89,7 +92,7 @@ public class RegisterActivity extends AppCompatActivity {
         et_username = findViewById(R.id.et_username);
         et_password = findViewById(R.id.et_password);
         et_repeatpassword = findViewById(R.id.et_repeatpassword);
-        dbUtil = new DBUtil(RegisterActivity.this,"User2");
+        dbUtil = new DBUtil(RegisterActivity.this,"User3");
     }
 
     private void ShowEnterAnimation() {
