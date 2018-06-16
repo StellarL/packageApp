@@ -1,6 +1,7 @@
 package com.example.packageapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,7 +84,8 @@ public class AllOrdersAdapter extends BaseAdapter {
         myHolder.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(context,DetailActivity.class);
+                context.startActivity(intent);
             }
         });
 

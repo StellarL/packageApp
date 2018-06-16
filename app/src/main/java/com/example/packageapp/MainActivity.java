@@ -28,6 +28,7 @@ import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationBar.OnTabSelectedListener {
     private BottomNavigationBar bottomNavigationBar;
@@ -119,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         listView.setAdapter(AllOrdersAdapter);
 
         //悬浮按钮
-        FloatingActionButton fabtn = findViewById(R.id.fab);
+        final FloatingActionButton fabtn = findViewById(R.id.fab);
         fabtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
