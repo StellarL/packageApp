@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -20,6 +21,7 @@ public class AllOrdersAdapter extends BaseAdapter {
 
     private Context context;
     private ArrayList<Order> arrayList;
+    private selfDialog sdlog;
 
     public AllOrdersAdapter(Context context, ArrayList<Order> arrayList) {
         this.context = context;
@@ -85,6 +87,7 @@ public class AllOrdersAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
 
+
                 //todo 确定按钮
 
                 //todo 更新数据库已接单
@@ -92,6 +95,24 @@ public class AllOrdersAdapter extends BaseAdapter {
                 Intent intent = new Intent(context,DetailActivity.class);
                 intent.putExtra("id",order.getId());
                 context.startActivity(intent);
+
+                sdlog = new selfDialog(context);
+                sdlog.setYesOnclickListener(new selfDialog.onYesOnclickListener() {
+                    @Override
+                    public void onYesClick() {
+                        Intent intent = new Intent(context,DetailActivity.class);
+                        context.startActivity(intent);
+                    }
+                });
+                sdlog.setNoOnclickListener(new selfDialog.onNoOnclickListener(){
+
+                    @Override
+                    public void onNoClick() {
+
+                    }
+                });
+                sdlog.show();
+
             }
         });
 
