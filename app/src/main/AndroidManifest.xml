@@ -24,7 +24,8 @@
         <activity android:name=".evalActivity" />
         <activity android:name=".DetailActivity" />
         <activity android:name=".OrderActivity" />
-        <activity android:name=".mineActivity"></activity>
+        <activity android:name=".mineActivity" />
+        <activity android:name=".DoEvalActivity"></activity>
     </application>
 
 </manifest>
