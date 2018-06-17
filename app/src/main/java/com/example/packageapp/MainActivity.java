@@ -102,13 +102,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
 //                drawerLayout.closeDrawers();
                 switch (item.getItemId()){
                     case R.id.nav_score:
-                        startActivity(new Intent(MainActivity.this,evalActivity.class));
+                        startActivity(new Intent(MainActivity.this,evalActivity.class).putExtra("phone",phone));
                         break;
                     case R.id.info:
-                        startActivity(new Intent(MainActivity.this,mineActivity.class));
+                        startActivity(new Intent(MainActivity.this,mineActivity.class).putExtra("phone",phone));
                         break;
                     case R.id.fix:
-                        startActivity(new Intent(MainActivity.this,SetIdentActivity.class));
+                        startActivity(new Intent(MainActivity.this,SetIdentActivity.class).putExtra("userphone",phone));
                         break;
 
                 }

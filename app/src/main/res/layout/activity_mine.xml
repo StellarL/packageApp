@@ -43,6 +43,7 @@
                     android:textSize="20dp" />
 
                 <TextView
+                    android:id="@+id/tv_relname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="120dp"
@@ -68,6 +69,7 @@
                     android:textSize="20dp" />
 
                 <TextView
+                    android:id="@+id/tv_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="120dp"
@@ -93,6 +95,7 @@
                     android:textSize="20dp" />
 
                 <TextView
+                    android:id="@+id/tv_idCard"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="120dp"
