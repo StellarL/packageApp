@@ -46,6 +46,7 @@
                     app:srcCompat="@drawable/score" />
 
                 <TextView
+                    android:id="@+id/tv_score"
                     android:layout_width="31dp"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"

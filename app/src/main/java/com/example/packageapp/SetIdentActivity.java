@@ -2,6 +2,7 @@ package com.example.packageapp;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,41 +29,60 @@ public class SetIdentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_ident);
 
-        initView();
+        et_relname = findViewById(R.id.et_relname);
+        et_cardId = findViewById(R.id.et_cardId);
+        cardUp = findViewById(R.id.cardUp);
+        cardBack = findViewById(R.id.cardBack);
+        btnGo = findViewById(R.id.bt_go);
+        dbUtil = new DBUtil(SetIdentActivity.this, "User3");
+        editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
 
         final String userphone = getIntent().getStringExtra("userphone");
-
-        btnGo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String relname = et_relname.getText().toString();
-                String cardId = et_cardId.getText().toString();
-                if(relname.length()==0 || relname.equals("") || relname.isEmpty() || relname==null){
-                    Toast.makeText(SetIdentActivity.this,"请输入真实姓名",Toast.LENGTH_SHORT).show();
-                } else if (cardId.equals("") || cardId.length()==0 || cardId.isEmpty() || cardId==null){
-                    Toast.makeText(SetIdentActivity.this,"请输入身份证号码",Toast.LENGTH_SHORT).show();
-                } else if (!isCardLegal(cardId)) {
-                    Toast.makeText(SetIdentActivity.this, "身份证号码不正确", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(SetIdentActivity.this,"注册成功",Toast.LENGTH_SHORT).show();
-                    try {
-                        Thread.sleep(2000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+        User user = dbUtil.queryByPhoneUser(userphone);
+        if(user.getRelName()==null ){
+            //如果没有认证就认证
+            btnGo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String relname = et_relname.getText().toString();
+                    String cardId = et_cardId.getText().toString();
+                    if(relname.length()==0 || relname.equals("") || relname.isEmpty() || relname==null){
+                        Toast.makeText(SetIdentActivity.this,"请输入真实姓名",Toast.LENGTH_SHORT).show();
+                    } else if (cardId.equals("") || cardId.length()==0 || cardId.isEmpty() || cardId==null){
+                        Toast.makeText(SetIdentActivity.this,"请输入身份证号码",Toast.LENGTH_SHORT).show();
+                    } else if (!isCardLegal(cardId)) {
+                        Toast.makeText(SetIdentActivity.this, "身份证号码不正确", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(SetIdentActivity.this,"注册成功",Toast.LENGTH_SHORT).show();
+                        try {
+                            Thread.sleep(2000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        //更新数据库
+                        dbUtil.addIdentUser(userphone,relname,cardId);
+                        dbUtil.queryAllUser();
+                        //将userphone 存入 SharedPreferences
+                        editor.putString("userphone",userphone);
+                        editor.apply();
+                        //跳转到主界面
+                        Intent intent = new Intent(SetIdentActivity.this,MainActivity.class);
+                        startActivity(intent);
                     }
-                    //更新数据库
-                    dbUtil.addIdentUser(userphone,relname,cardId);
-                    dbUtil.queryAllUser();
-                    //将userphone 存入 SharedPreferences
-                    editor.putString("userphone",userphone);
-                    editor.apply();
-                    //跳转到主界面
-                    Intent intent = new Intent(SetIdentActivity.this,MainActivity.class);
-                    startActivity(intent);
                 }
+            });
+        }else{
+            //如果认证了填进去
+            et_relname.setText(user.getRelName());
+            et_cardId.setText(user.getIdCard());
 
-            }
-        });
+            btnGo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                }
+            });
+
+        }
 
 
     }
@@ -74,13 +94,5 @@ public class SetIdentActivity extends AppCompatActivity {
         return m.matches();
     }
 
-    private void initView() {
-        et_relname = findViewById(R.id.et_relname);
-        et_cardId = findViewById(R.id.et_cardId);
-        cardUp = findViewById(R.id.cardUp);
-        cardBack = findViewById(R.id.cardBack);
-        btnGo = findViewById(R.id.bt_go);
-        dbUtil = new DBUtil(SetIdentActivity.this,"User3");
-        editor = getSharedPreferences("data",MODE_PRIVATE).edit();
-    }
+
 }

@@ -65,7 +65,6 @@ public class LoginActivity extends AppCompatActivity {
                 String userPhone = etUsername.getText().toString();
                 String password = etPassword.getText().toString();
 
-                //todo 先注释 后面要用
                 if(userPhone.length()==0 || userPhone.equals("") || userPhone.isEmpty() || userPhone==null){
                     Toast.makeText(LoginActivity.this,"请输入用户名",Toast.LENGTH_SHORT).show();
                 }else if (password.equals("") || password.length()==0 || password.isEmpty() || password==null){
