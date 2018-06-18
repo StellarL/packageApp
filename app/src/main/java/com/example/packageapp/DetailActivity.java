@@ -57,13 +57,13 @@ public class DetailActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        MainActivity.lastSelectedPosition = 1;
-        startActivity(new Intent(DetailActivity.this,MainActivity.class));
-        finish();
-    }
+//    @Override
+//    public void onBackPressed() {
+//        super.onBackPressed();
+//        MainActivity.lastSelectedPosition = 1;
+//        startActivity(new Intent(DetailActivity.this,MainActivity.class));
+//        finish();
+//    }
 
     private void initView() {
         tv_ordername = findViewById(R.id.tv_ordername);

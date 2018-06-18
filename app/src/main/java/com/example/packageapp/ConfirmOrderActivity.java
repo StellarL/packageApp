@@ -3,6 +3,7 @@ package com.example.packageapp;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -16,10 +17,13 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirm_order);
 
-        btnConfirm=findViewById(R.id.btnConfirm);
+
+        btnConfirm=findViewById(R.id.btnConfirm2);
+        Log.e("btnConfirm", "onCreate: " );
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.e("btnConfirm", "onClick: " );
                 sfdig=new selfDialog(ConfirmOrderActivity.this);
                 sfdig.setTitle("确认收货");
                 sfdig.setMessage("您是否确认收到货？");
