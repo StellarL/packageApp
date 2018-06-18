@@ -30,7 +30,11 @@ public class ConfirmOrderActivity extends AppCompatActivity {
                 sfdig.setYesOnclickListener(new selfDialog.onYesOnclickListener() {
                     @Override
                     public void onYesClick() {
-                        startActivity(new Intent(ConfirmOrderActivity.this,DoEvalActivity.class));
+                        int id = getIntent().getIntExtra("id",0);
+                        //更新已完成
+                        DBUtil dbUtil = new DBUtil(ConfirmOrderActivity.this,"Order");
+                        dbUtil.updateFinishOrder(id);
+                        startActivity(new Intent(ConfirmOrderActivity.this,DoEvalActivity.class).putExtra("id",id));
                         finish();
                     }
                 });
@@ -40,6 +44,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
                         sfdig.dismiss();
                     }
                 });
+                sfdig.show();
             }
         });
     }

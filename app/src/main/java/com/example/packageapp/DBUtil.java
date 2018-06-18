@@ -30,16 +30,20 @@ public class DBUtil {
     }
 
     public void insertInitOrder(){
-        insertOrder(2,"李馨","13555555555","D5","A6",5,1,"谢谢");
-        insertOrder(2,"lxini","13666666666","D5","D6",5,1,"谢谢");
-        insertOrder(2,"dengyan","13555555555","D5","A7",5,1,"谢谢");
-        insertOrder(1,"李欣","13666666666","C3","A7",4,1,"谢谢");
-        updateStatusOrder(5,2,"dengyan","13555555555");
-        insertOrder(1,"dengyan","13555555555","A3","D5",4,1,"谢谢");
-        updateStatusOrder(6,2,"lixin","13666666666");
-        insertOrder(2,"哈哈哈哈","13555555555","A7","A8",3,2,"谢谢");
-        updateStatusOrder(1,1,"aa","13666666666");
-        updateStatusOrder(3,1,"aa","13666666666");
+//        insertOrder(2,"李馨","13555555555","D5","A6",5,1,"谢谢");
+//        insertOrder(2,"lxini","13666666666","D5","D6",5,1,"谢谢");
+//        insertOrder(2,"dengyan","13555555555","D5","A7",5,1,"谢谢");
+//        insertOrder(1,"李欣","13666666666","C3","A7",4,1,"谢谢");
+//        updateStatusOrder(5,2,"dengyan","13555555555");
+//        insertOrder(1,"dengyan","13555555555","A3","D5",4,1,"谢谢");
+//        updateStatusOrder(6,2,"lixin","13666666666");
+//        insertOrder(2,"哈哈哈哈","13555555555","A7","A8",3,2,"谢谢");
+//        updateStatusOrder(1,1,"aa","13666666666");
+//        updateStatusOrder(3,1,"aa","13666666666");
+        ArrayList<Order> arrayList = selectMyOrder("13666666666");
+        Order order = arrayList.get(1);
+        updateStatusOrder(order.getId(),2,"dy","13555555555");
+
         queryAllOrder();
         Log.e("insertInitOrder", "insertInitOrder: insertSuccess" );
     }
@@ -450,7 +454,7 @@ public class DBUtil {
      * 更新订单已完成
      * @param id 订单id
      */
-    public void updateFinish(int id){
+    public void updateFinishOrder(int id){
         String sql = "update order1 set finish =? where _id =?";
         sqLiteDatabase.execSQL(sql,new String[]{"已完成",String.valueOf(id)});
         Log.e("updateFinish", "updateFinish: success" );
