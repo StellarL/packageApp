@@ -24,16 +24,11 @@
         <activity android:name=".evalActivity" />
         <activity android:name=".DetailActivity" />
         <activity android:name=".OrderActivity" />
-
         <activity android:name=".mineActivity" />
-        <activity android:name=".DoEvalActivity"></activity>
-
-
-        <activity android:name=".SetIdentActivity"></activity>
-
-        <activity android:name=".mineActivity"></activity>
-
-
+        <activity android:name=".DoEvalActivity" />
+        <activity android:name=".SetIdentActivity" />
+        <activity android:name=".mineActivity" />
+        <activity android:name=".ConfirmOrderActivity"></activity>
     </application>
 
 </manifest>

@@ -80,6 +80,7 @@ public class LoginActivity extends AppCompatActivity {
                         editor.apply();
                         Log.e("onClick", "onClick: 密码正确" );
                         Intent i2 = new Intent(LoginActivity.this, MainActivity.class);
+
                         startActivity(i2, oc2.toBundle());
                     }
                 }
