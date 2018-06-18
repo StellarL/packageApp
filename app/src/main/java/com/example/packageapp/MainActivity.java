@@ -160,40 +160,39 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
             actionBar.setHomeAsUpIndicator(R.drawable.reorder);
         }
         dbUtilOrder = new DBUtil(MainActivity.this,"Order");
-        switch (lastSelectedPosition){
-            case 0:
+//        switch (lastSelectedPosition){
+//            case 0:
 
 //        dbUtilOrder.insertInitOrder();
                 arrayList = dbUtilOrder.queryAllState0Order();
                 AllOrdersAdapter AllOrdersAdapter = new AllOrdersAdapter(MainActivity.this,arrayList,phone);
                 listView.setAdapter(AllOrdersAdapter);
-                break;
-            case 1:
-                arrayList = dbUtilOrder.selectMyReceiveOrder(phone);
-                MyOrderAdapter myReceAdapter = new MyOrderAdapter(MainActivity.this,arrayList);
-                listView.setAdapter(myReceAdapter);
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Order order = arrayList.get(position);
-                        startActivity(new Intent(MainActivity.this,DetailActivity.class).putExtra("id",order.getId()));
-                    }
-                });
-                break;
-            case 2:
-                arrayList = dbUtilOrder.selectMyOrder(phone);
-                MyOrderAdapter myOrderAdapter = new MyOrderAdapter(MainActivity.this,arrayList);
-                listView.setAdapter(myOrderAdapter);
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Order order = arrayList.get(position);
-                        startActivity(new Intent(MainActivity.this,ConfirmOrderActivity.class).putExtra("id",order.getId()));
-
-                    }
-                });
-                break;
-        }
+//                break;
+//            case 1:
+//                arrayList = dbUtilOrder.selectMyReceiveOrder(phone);
+//                MyOrderAdapter myReceAdapter = new MyOrderAdapter(MainActivity.this,arrayList);
+//                listView.setAdapter(myReceAdapter);
+//                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                    @Override
+//                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                        Order order = arrayList.get(position);
+//                        startActivity(new Intent(MainActivity.this,DetailActivity.class).putExtra("id",order.getId()));
+//                    }
+//                });
+//                break;
+//            case 2:
+//                arrayList = dbUtilOrder.selectMyOrder(phone);
+//                MyOrderAdapter myOrderAdapter = new MyOrderAdapter(MainActivity.this,arrayList);
+//                listView.setAdapter(myOrderAdapter);
+//                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                    @Override
+//                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                        Order order = arrayList.get(position);
+//                        startActivity(new Intent(MainActivity.this,ConfirmOrderActivity.class).putExtra("id",order.getId()));
+//
+//                    }
+//                });
+//                break;
 
 
 
@@ -289,7 +288,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         Order order = arrayList.get(position);
-                        startActivity(new Intent(MainActivity.this,ConfirmOrderActivity.class).putExtra("id",order.getId()));
+                        if(order.getFinish().equals("未接单")){
+                            Toast.makeText(MainActivity.this,"当前订单未接单，不能查看详细信息",Toast.LENGTH_SHORT).show();
+                        } else  if (order.getFinish().equals("已完成") && order.getScore()!=0){
+                            Toast.makeText(MainActivity.this,"订单已完成",Toast.LENGTH_SHORT).show();
+                        }else{
+                            startActivity(new Intent(MainActivity.this,ConfirmOrderActivity.class).putExtra("id",order.getId()));
+                        }
 
                     }
                 });
