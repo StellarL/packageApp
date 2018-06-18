@@ -94,11 +94,17 @@ public class AllOrdersAdapter extends BaseAdapter {
                 sdlog.setYesOnclickListener(new selfDialog.onYesOnclickListener() {
                     @Override
                     public void onYesClick() {
-                        //todo 更新数据库已接单
+                        DBUtil dbUtilOrder = new DBUtil(context,"Order");
+
+
                         DBUtil dbUtilUser = new DBUtil(context,"User3");
                         User user = dbUtilUser.queryByPhoneUser(phone);
+                        //判斷是否接自己的单
+                     if(order.getOrderId() == user.getId()){
+                         Toast.makeText(context,"此订单为你的订单，不能接自己的单",Toast.LENGTH_SHORT).show();
+                         sdlog.dismiss();
+                     }else {
 
-                        DBUtil dbUtilOrder = new DBUtil(context,"Order");
                         dbUtilOrder.updateStatusOrder(order.getId(),user.getId(),user.getRelName(),user.getPhone());
                         //todo 更新User数据库 score+2
                         dbUtilUser.updateReceScoreUser(user.getId());
@@ -109,7 +115,7 @@ public class AllOrdersAdapter extends BaseAdapter {
                         intent.putExtra("id",order.getId());
                         context.startActivity(intent);
                         sdlog.dismiss();
-                    }
+                    }}
                 });
                 sdlog.setNoOnclickListener(new selfDialog.onNoOnclickListener(){
 

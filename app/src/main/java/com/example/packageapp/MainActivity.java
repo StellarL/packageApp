@@ -164,6 +164,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
 //            case 0:
 
 //        dbUtilOrder.insertInitOrder();
+
                 arrayList = dbUtilOrder.queryAllState0Order();
                 AllOrdersAdapter AllOrdersAdapter = new AllOrdersAdapter(MainActivity.this,arrayList,phone);
                 listView.setAdapter(AllOrdersAdapter);
@@ -288,9 +289,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         Order order = arrayList.get(position);
-                        if(order.getFinish().equals("未接单")){
+                        if(order.getStatus() == 0){
                             Toast.makeText(MainActivity.this,"当前订单未接单，不能查看详细信息",Toast.LENGTH_SHORT).show();
-                        } else  if (order.getFinish().equals("已完成") && order.getScore()!=0){
+                        } else  if (order.getFinish().equals("已完成") && order.getScore()!=0 ){
                             Toast.makeText(MainActivity.this,"订单已完成",Toast.LENGTH_SHORT).show();
                         }else{
                             startActivity(new Intent(MainActivity.this,ConfirmOrderActivity.class).putExtra("id",order.getId()));
